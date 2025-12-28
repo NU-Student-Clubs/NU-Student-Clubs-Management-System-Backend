@@ -1,4 +1,4 @@
-package com.nu.clubs.clubs_bakend.controller;
+package com.nu.clubs.clubs_backend.controller;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
