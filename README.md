@@ -1,184 +1,104 @@
 # NU Student Clubs Management System - Backend
 
-Backend implementation for the Nile University Clubs Hub
+Backend implementation for the Nile University Clubs Hub — a centralized platform that brings all NU clubs together. Built with Spring Boot and Java.
 
 ## 📋 Overview
-
-This repository contains the backend implementation for the **Nile University Clubs Hub**, a centralized platform designed to bring all NU clubs together in one place. The project is built using **Spring Boot** and **Java**. 
+This project exposes RESTful APIs for managing clubs, committees, events, memberships, board members, and admin operations with JWT-based security.
 
 ## 🛠️ Tech Stack
-
-- **Java 17**
-- **Spring Boot 4.0.0**
-- **Spring Web MVC** - Building RESTful APIs
-- **Spring Data JPA** - Database interaction
-- **MySQL** - Primary database
-- **Maven** - Project management and dependencies
-- **Spring Boot DevTools** - Development productivity
+- Java 17
+- Spring Boot 4.0.0 (Web, Data JPA, Security)
+- MySQL (dev/prod), H2 (tests)
+- JWT (io.jsonwebtoken)
+- Maven Wrapper
 
 ## 📁 Project Structure
 
 ```
-src/main/java/com/nu/clubs/clubs_bakend/
+src/main/java/com/nu/clubs/clubs_backend/
 ├── controller/          # REST Controllers
-│   └── ClubController.java
-├── service/            # Business Logic Layer
-│   ├── EventService.java
-│   ├── MembershipService.java
-│   └── BoardMemberService.java
-├── repository/         # Data Access Layer
-│   ├── AdminRepository.java
-│   └── CommitteeRepository. java
-├── model/              # Entity Classes
-│   └── Role.java
-├── dto/                # Data Transfer Objects
-│   ├── EventRequest.java
-│   └── GalleryRequest. java
-└── exception/          # Exception Handling
-    └── GlobalExceptionHandler.java
+├── service/             # Business Logic Layer
+├── repository/          # Data Access Layer
+├── model/               # Entities
+├── dto/                 # Data Transfer Objects
+└── exception/           # Exception Handling
 ```
+
+Note: There is also a legacy package path `clubs_bakend/`. Prefer `clubs_backend/` going forward.
 
 ## 🚀 Getting Started
 
 ### Prerequisites
+- JDK 17+
+- MySQL 8.x (if running locally)
+- Internet access (Maven dependencies)
 
-- Java 17 or higher
-- Maven 3.6+ (or use the included Maven Wrapper)
-- MySQL Server
-- Git
+### Database Configuration (Recommended via Environment Variables)
+Avoid committing secrets. Override defaults using environment variables:
+- `SPRING_DATASOURCE_URL` (e.g., `jdbc:mysql://localhost:3306/clubs?createDatabaseIfNotExist=true`)
+- `SPRING_DATASOURCE_USERNAME`
+- `SPRING_DATASOURCE_PASSWORD`
+- `SERVER_PORT` (default: `8081`)
+- `JWT_SECRET` (long, random string)
 
-### Installation Steps
-
-1. **Clone the repository**
-```bash
-git clone https://github.com/NU-Student-Clubs/NU-Student-Clubs-Management-System-Backend.git
-cd NU-Student-Clubs-Management-System-Backend
+Windows PowerShell session example:
+```powershell
+$env:SPRING_DATASOURCE_URL = "jdbc:mysql://localhost:3306/clubs?createDatabaseIfNotExist=true"
+$env:SPRING_DATASOURCE_USERNAME = "root"
+$env:SPRING_DATASOURCE_PASSWORD = "your_password"
+$env:SERVER_PORT = "8081"
+$env:JWT_SECRET = "replace-with-a-strong-random-secret"
 ```
 
-2. **Set up the database**
-   
-   Create a MySQL database:
-```sql
-CREATE DATABASE nu_clubs_db;
+The file `src/main/resources/application.properties` contains default values that you can override via env vars.
+
+### Build & Run (Windows)
+- Clean compile (skip tests):
+```powershell
+.\mvnw.cmd -DskipTests compile
+```
+- Run the app (dev):
+```powershell
+.\mvnw.cmd spring-boot:run
+```
+- Package JAR:
+```powershell
+.\mvnw.cmd -DskipTests package
+```
+- Run packaged JAR:
+```powershell
+java -jar target\clubs-bakend-0.0.1-SNAPSHOT.jar
 ```
 
-3. **Configure database connection**
-   
-   Create `src/main/resources/application. properties`:
-```properties
-spring.datasource.url=jdbc:mysql://localhost:3306/nu_clubs_db
-spring.datasource.username=your_username
-spring.datasource.password=your_password
-spring.jpa.hibernate.ddl-auto=update
-spring.jpa.show-sql=true
-```
-
-4. **Build the project**
-```bash
-./mvnw clean install
-```
-
-5. **Run the application**
-```bash
-./mvnw spring-boot:run
-```
-
-Or on Windows:
-```cmd
-mvnw.cmd spring-boot:run
-```
-
-The application will be running at:  `http://localhost:8080`
+The API starts on http://localhost:8081 by default (configured in `application.properties`).
 
 ## 🔌 API Endpoints
+Typical resources include: Clubs, Events, Memberships, Board Members, Committees, Admins. See controllers under `src/main/java/com/nu/clubs/clubs_backend/controller`.
 
-### Clubs
-- `GET /clubs` - Get all clubs
-- `GET /clubs/{id}` - Get a specific club
-- `POST /clubs` - Create a new club
-- `PUT /clubs/{id}` - Update club details
-- `DELETE /clubs/{id}` - Delete a club
-
-*(More endpoints will be added as the project evolves)*
-
-## 🏗️ Features
-
-- **Club Management** - Create, read, update, and delete clubs
-- **Event Management** - Handle club events and activities
-- **Membership System** - Manage club memberships
-- **Board Members** - Track club leadership and board members
-- **Gallery Management** - Store and manage club photos and media
-- **Role-Based Access** - Different permissions for admins, board members, and members
-
-## 📊 Database Schema
-
-The system uses MySQL with JPA/Hibernate for object-relational mapping. Key entities include: 
-- **Club** - Club information and details
-- **Event** - Club events and activities
-- **Member** - Student membership information
-- **BoardMember** - Club leadership
-- **Committee** - Club committees
-- **Admin** - System administrators
-- **Role** - User roles and permissions
-
-## 🧪 Testing
-
-Run tests using: 
-```bash
-./mvnw test
+## 🧪 Tests
+Tests run against an in-memory H2 database via `src/test/resources/application-test.properties`:
+```powershell
+.\mvnw.cmd test
 ```
 
+## 🔐 Security
+JWT-based authentication is configured. Provide a strong `JWT_SECRET` via environment variable for non-test runs.
+
+## 🧭 Profiles
+- `test`: activated automatically in tests; uses H2 with `create-drop`.
+- default: uses MySQL (values from `application.properties` or env vars).
+- A `CommandLineRunner` that seeds a default admin is disabled during tests via `@Profile("!test")`.
+
 ## 🤝 Contributing
+1. Create a feature branch: `git checkout -b feature/your-change`
+2. Commit: `git commit -m "feat: your change"`
+3. Push: `git push origin feature/your-change`
+4. Open a Pull Request
 
-We welcome contributions! To contribute:
+## 🐛 Troubleshooting
+- DB connection issues: verify `SPRING_DATASOURCE_*`, DB availability, firewall rules.
+- Port in use: set `SERVER_PORT` to a free port (e.g., 9090).
+- Build problems: ensure JDK 17 and run `./mvnw -v`.
 
-1. Fork the project
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-### Coding Standards
-- Follow Java naming conventions
-- Write meaningful commit messages
-- Add comments for complex logic
-- Update documentation for new features
-
-## 📝 Project Status
-
-The project is under active development. Current progress: 
-- ✅ Spring Boot setup
-- ✅ Database integration
-- ✅ Basic controllers structure
-- ✅ Services and repositories scaffolding
-- 🚧 Business logic implementation (in progress)
-- 🚧 Entity models (in progress)
-- 🚧 API documentation (in progress)
-- 📋 Authentication & Authorization (planned)
-- 📋 Frontend integration (planned)
-
-## 🐛 Known Issues
-
-Check the [Issues](https://github.com/NU-Student-Clubs/NU-Student-Clubs-Management-System-Backend/issues) page for current bugs and feature requests.
-
-## 📫 Contact
-
-For questions and inquiries, please open an [Issue](https://github.com/NU-Student-Clubs/NU-Student-Clubs-Management-System-Backend/issues) on this repository.
-
-## 👥 Team
-
-This project is developed and maintained by the NU Student Clubs development team. 
-
-## 📄 License
-
-This project is open source and available for educational purposes.
-
-## 🙏 Acknowledgments
-
-- Nile University for supporting student initiatives
-- All contributors and developers
-- The Spring Boot community
-
----
-
-**Made with ❤️ at Nile University** 🎓
+## 📄 Notes
+- The artifact ID is `clubs-bakend`. Keep docs consistent, or rename later if you prefer `backend`.
