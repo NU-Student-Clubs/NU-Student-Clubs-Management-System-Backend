@@ -1,70 +1,76 @@
 package com.nu.clubs.clubs_backend.service;
 
+import com.nu.clubs.clubs_backend.model.BoardMember;
+import com.nu.clubs.clubs_backend.model.Club;
+import com.nu.clubs.clubs_backend.repository.BoardMemberRepository;
+import com.nu.clubs.clubs_backend.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.nu.clubs.clubs_backend.exception.NotFoundException;
-import com.nu.clubs.clubs_backend.model.BoardMember;
-import com.nu.clubs.clubs_backend.repository.BoardMemberRepository;
-
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BoardMemberService {
-
+    
     @Autowired
     private BoardMemberRepository boardMemberRepository;
 
-    public BoardMember createBoardMember(BoardMember bm) {
-        return boardMemberRepository.save(bm);
+    public BoardMember createBoardMember(BoardMember boardMember) {
+        return boardMemberRepository.save(boardMember);
     }
 
-    public BoardMember updateBoardMember(Long id, BoardMember details) {
-        BoardMember bm = boardMemberRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Board member not found: " + id));
-
-        if (details.getEmail() != null)
-            bm.setEmail(details.getEmail());
-        if (details.getFirstName() != null)
-            bm.setFirstName(details.getFirstName());
-        if (details.getLastName() != null)
-            bm.setLastName(details.getLastName());
-        if (details.getPosition() != null)
-            bm.setPosition(details.getPosition());
-        if (details.getClub() != null)
-            bm.setClub(details.getClub());
-        if (details.getIsActiveBoardMember() != null)
-            bm.setIsActiveBoardMember(details.getIsActiveBoardMember());
-        bm.setUpdatedAt(System.currentTimeMillis());
-
-        return boardMemberRepository.save(bm);
+    public BoardMember updateBoardMember(Long id, BoardMember boardMemberDetails) {
+        BoardMember boardMember = boardMemberRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Board Member not found with id: " + id));
+        
+        if (boardMemberDetails.getEmail() != null) boardMember.setEmail(boardMemberDetails.getEmail());
+        if (boardMemberDetails.getFirstName() != null) boardMember.setFirstName(boardMemberDetails.getFirstName());
+        if (boardMemberDetails.getLastName() != null) boardMember.setLastName(boardMemberDetails.getLastName());
+        if (boardMemberDetails.getPosition() != null) boardMember.setPosition(boardMemberDetails.getPosition());
+        if (boardMemberDetails.getClub() != null) boardMember.setClub(boardMemberDetails.getClub());
+        if (boardMemberDetails.getIsActiveBoardMember() != null) boardMember.setIsActiveBoardMember(boardMemberDetails.getIsActiveBoardMember());
+        boardMember.setUpdatedAt(System.currentTimeMillis());
+        
+        return boardMemberRepository.save(boardMember);
     }
 
     public BoardMember getBoardMemberById(Long id) {
         return boardMemberRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Board member not found: " + id));
+                .orElseThrow(() -> new NotFoundException("Board Member not found with id: " + id));
     }
 
-    public List<BoardMember> getAllBoardMembers() {
-        return boardMemberRepository.findAll();
+    public Optional<BoardMember> getBoardMemberByEmail(String email) {
+        return boardMemberRepository.findByEmail(email);
+    }
+
+    public List<BoardMember> getBoardMembersByClub(Club club) {
+        return boardMemberRepository.findByClub(club);
+    }
+
+    public List<BoardMember> getActiveBoardMembersByClub(Club club) {
+        return boardMemberRepository.findByClubAndIsActiveBoardMember(club, true);
     }
 
     public List<BoardMember> getBoardMembersByPosition(String position) {
         return boardMemberRepository.findByPosition(position);
     }
 
-    public void deleteBoardMember(Long id) {
-        if (!boardMemberRepository.existsById(id)) {
-            throw new NotFoundException("Board member not found: " + id);
-        }
-        boardMemberRepository.deleteById(id);
+    public List<BoardMember> getAllBoardMembers() {
+        return boardMemberRepository.findAll();
     }
 
-    public BoardMember deactivateBoardMember(Long id) {
-        BoardMember bm = boardMemberRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Board member not found: " + id));
-        bm.setIsActiveBoardMember(false);
-        bm.setUpdatedAt(System.currentTimeMillis());
-        return boardMemberRepository.save(bm);
+    public void deactivateBoardMember(Long id) {
+        BoardMember boardMember = boardMemberRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Board Member not found with id: " + id));
+        boardMember.setIsActiveBoardMember(false);
+        boardMemberRepository.save(boardMember);
+    }
+
+    public void deleteBoardMember(Long id) {
+        if (!boardMemberRepository.existsById(id)) {
+            throw new NotFoundException("Board Member not found with id: " + id);
+        }
+        boardMemberRepository.deleteById(id);
     }
 }

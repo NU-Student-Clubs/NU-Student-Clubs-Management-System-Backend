@@ -1,7 +1,7 @@
-package com.nu.clubs.clubs_bakend.repository;
+package com.nu.clubs.clubs_backend.repository;
 
-import com.nu.clubs.clubs_bakend.model.BestMember;
-import com.nu.clubs.clubs_bakend.model.User;
+import com.nu.clubs.clubs_backend.model.BestMember;
+import com.nu.clubs.clubs_backend.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

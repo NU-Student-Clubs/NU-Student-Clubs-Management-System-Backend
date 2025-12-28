@@ -1,7 +1,7 @@
-package com.nu.clubs.clubs_bakend.dto.mapper;
+package com.nu.clubs.clubs_backend.dto.mapper;
 
-import com.nu.clubs.clubs_bakend.dto.MembershipResponse;
-import com.nu.clubs.clubs_bakend.model.Membership;
+import com.nu.clubs.clubs_backend.dto.MembershipResponse;
+import com.nu.clubs.clubs_backend.model.Membership;
 
 public final class MembershipMapper {
 
@@ -15,7 +15,7 @@ public final class MembershipMapper {
                 membership.getUser() != null ? membership.getUser().getId() : null,
                 membership.getClub() != null ? membership.getClub().getId() : null,
                 membership.getStatus(),
-                membership.getJoinedAt(),
+                membership.getJoinDate(),
                 membership.getUpdatedAt()
         );
     }

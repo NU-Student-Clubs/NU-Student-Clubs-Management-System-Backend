@@ -1,23 +1,23 @@
 package com.nu.clubs.clubs_backend.model;
 
+import java.time.LocalDateTime;
+import java.util.Set;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "clubs")
 @Data
-@Table(name = "app_clubs", uniqueConstraints = {
-        @UniqueConstraint(name = "uk_app_clubs_name", columnNames = "name"),
-        @UniqueConstraint(name = "uk_app_clubs_email", columnNames = "email")
-})
 @NoArgsConstructor
 @AllArgsConstructor
 public class Club {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "club_id")
     private Long id;
 
     @Column(nullable = false, unique = true)
@@ -35,11 +35,35 @@ public class Club {
     @Column(nullable = false)
     private String category;
 
+    @Column(name = "number_of_members")
+    private Integer numberOfMembers;
+
+    @Column(name = "facebook_url")
+    private String facebookUrl;
+
+    @Column(name = "instagram_url")
+    private String instagramUrl;
+
+    @Column(name = "linkedin_url")
+    private String linkedinUrl;
+
+    @Column(name = "logo")
+    private String logo;
+
+    @Column(name = "is_active")
+    private Boolean isActive;
+
+    @Column(name = "president_id")
+    private Long presidentId;
+
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    @OneToMany(mappedBy = "club", cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Membership.class)
+    private Set<Membership> memberships;
 
     @PrePersist
     protected void onCreate() {
@@ -50,69 +74,5 @@ public class Club {
     @PreUpdate
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getPresident() {
-        return president;
-    }
-
-    public void setPresident(String president) {
-        this.president = president;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
     }
 }

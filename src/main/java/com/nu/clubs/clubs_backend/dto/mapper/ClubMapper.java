@@ -1,8 +1,8 @@
-package com.nu.clubs.clubs_bakend.dto.mapper;
+package com.nu.clubs.clubs_backend.dto.mapper;
 
-import com.nu.clubs.clubs_bakend.dto.ClubRequest;
-import com.nu.clubs.clubs_bakend.dto.ClubResponse;
-import com.nu.clubs.clubs_bakend.model.Club;
+import com.nu.clubs.clubs_backend.dto.ClubRequest;
+import com.nu.clubs.clubs_backend.dto.ClubResponse;
+import com.nu.clubs.clubs_backend.model.Club;
 
 public final class ClubMapper {
 

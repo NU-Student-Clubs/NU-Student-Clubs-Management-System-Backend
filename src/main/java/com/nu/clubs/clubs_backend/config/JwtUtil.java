@@ -1,4 +1,4 @@
-package com.nu.clubs.clubs_bakend.config;
+package com.nu.clubs.clubs_backend.config;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

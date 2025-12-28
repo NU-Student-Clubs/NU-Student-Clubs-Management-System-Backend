@@ -24,7 +24,6 @@ public class AdminService {
         Admin admin = new Admin();
         applyRequest(admin, request);
 
-        // Ensure mandatory user fields (from User base) have defaults
         String safeName = request.getName() != null ? request.getName() : "Admin";
         admin.setFirstName(safeName);
         admin.setLastName("");
@@ -77,16 +76,11 @@ public class AdminService {
         if (request == null) {
             return;
         }
-        if (request.getName() != null)
-            admin.setName(request.getName());
-        if (request.getPosition() != null)
-            admin.setPosition(request.getPosition());
-        if (request.getClub() != null)
-            admin.setClub(request.getClub());
-        if (request.getCommittee() != null)
-            admin.setCommittee(request.getCommittee());
-        if (request.getSeason() != null)
-            admin.setSeason(request.getSeason());
+        if (request.getName() != null) admin.setName(request.getName());
+        if (request.getPosition() != null) admin.setPosition(request.getPosition());
+        if (request.getClub() != null) admin.setClub(request.getClub());
+        if (request.getCommittee() != null) admin.setCommittee(request.getCommittee());
+        if (request.getSeason() != null) admin.setSeason(request.getSeason());
     }
 
     private String generateEmail(String base) {

@@ -1,8 +1,10 @@
 package com.nu.clubs.clubs_backend.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.time.LocalDateTime;
 
@@ -26,6 +28,11 @@ public class Gallery {
 
     @Column(name = "club_id", nullable = false)
     private Long clubId;
+
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "club_id", insertable = false, updatable = false)
+    private Club club;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
@@ -52,6 +59,9 @@ public class Gallery {
 
     public Long getClubId() { return clubId; }
     public void setClubId(Long clubId) { this.clubId = clubId; }
+
+    public Club getClub() { return club; }
+    public void setClub(Club club) { this.club = club; }
 
     public LocalDateTime getCreatedAt() { return createdAt; }
     public LocalDateTime getUpdatedAt() { return updatedAt; }

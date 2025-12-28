@@ -1,4 +1,4 @@
-package com.nu.clubs.clubs_bakend.service;
+package com.nu.clubs.clubs_backend.service;
 
 import java.util.List;
 
@@ -7,10 +7,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.nu.clubs.clubs_bakend.exception.BadRequestException;
-import com.nu.clubs.clubs_bakend.exception.NotFoundException;
-import com.nu.clubs.clubs_bakend.model.Club;
-import com.nu.clubs.clubs_bakend.repository.ClubRepository;
+import com.nu.clubs.clubs_backend.exception.BadRequestException;
+import com.nu.clubs.clubs_backend.exception.NotFoundException;
+import com.nu.clubs.clubs_backend.model.Club;
+import com.nu.clubs.clubs_backend.repository.ClubRepository;
 
 import lombok.RequiredArgsConstructor;
 

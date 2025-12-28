@@ -12,6 +12,8 @@ import java.util.List;
 @Repository
 public interface EventRepository extends JpaRepository<Event, Long> {
     List<Event> findByClub(Club club);
+    
+    List<Event> findByClubId(Long clubId);
 
     List<Event> findByEventDateBetween(LocalDateTime start, LocalDateTime end);
 }

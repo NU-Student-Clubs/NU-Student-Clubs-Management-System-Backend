@@ -1,4 +1,4 @@
-package com.nu.clubs.clubs_bakend.config;
+package com.nu.clubs.clubs_backend.config;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -34,11 +34,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String token = authHeader.substring(7);
             try {
-                Claims claims = Jwts.parserBuilder()
-                        .setSigningKey(jwtUtil.getSigningKey())
+                Claims claims = Jwts.parser()
+                        .verifyWith(jwtUtil.getSigningKey())
                         .build()
-                        .parseClaimsJws(token)
-                        .getBody();
+                        .parseSignedClaims(token)
+                        .getPayload();
 
                 String email = claims.getSubject();
                 List<String> roles = claims.get("roles", List.class);

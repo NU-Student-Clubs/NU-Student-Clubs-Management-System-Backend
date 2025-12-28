@@ -1,6 +1,7 @@
 package com.nu.clubs.clubs_backend.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.Id;
@@ -27,6 +28,10 @@ import java.time.LocalDateTime;
 
     @Column(name = "club_id", nullable = false)
     private Long clubId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "club_id", insertable = false, updatable = false)
+    private Club club;
 
     @Column(nullable = false, length = 255)
     private String location;
@@ -63,6 +68,9 @@ import java.time.LocalDateTime;
 
     public Long getClubId() { return clubId; }
     public void setClubId(Long clubId) { this.clubId = clubId; }
+
+    public Club getClub() { return club; }
+    public void setClub(Club club) { this.club = club; }
 
     public String getLocation() { return location; }
     public void setLocation(String location) { this.location = location; }

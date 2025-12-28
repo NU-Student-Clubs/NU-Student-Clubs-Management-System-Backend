@@ -1,4 +1,4 @@
-package com.nu.clubs.clubs_bakend;
+package com.nu.clubs.clubs_backend;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

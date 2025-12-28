@@ -1,4 +1,4 @@
-package com.nu.clubs.clubs_bakend.model;
+package com.nu.clubs.clubs_backend.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
